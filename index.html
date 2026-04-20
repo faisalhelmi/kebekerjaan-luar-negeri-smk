@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulir Data Penempatan Luar Negeri — SMK</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ══ MENU UTAMA ══════════════════════════════ -->
+<div id="page-home" class="page active">
+  <div class="home-wrap">
+    <div class="home-badge">🇮🇩</div>
+    <h1 class="home-title">Formulir Data<br>Penempatan Luar Negeri</h1>
+    <p class="home-sub">Program SMK — Direktorat Sekolah Menengah Kejuruan</p>
+
+    <div class="home-cards">
+      <button class="home-card primary" onclick="startWizard()">
+        <span class="card-icon">✏️</span>
+        <strong>Isi Formulir</strong>
+        <span class="card-desc">Tambah data murid baru</span>
+      </button>
+      <button class="home-card" onclick="goPage('page-data'); renderTable()">
+        <span class="card-icon">📋</span>
+        <strong>Lihat Data</strong>
+        <span class="card-desc">Data yang sudah tersimpan</span>
+      </button>
+      <button class="home-card" onclick="goPage('page-export'); renderStats()">
+        <span class="card-icon">💾</span>
+        <strong>Unduh Data</strong>
+        <span class="card-desc">Export ke Excel / JSON</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ WIZARD ══════════════════════════════════ -->
+<div id="page-wizard" class="page">
+  <div class="wiz-topbar">
+    <button class="wiz-back" id="wiz-back-btn" onclick="prevStep()">← Kembali</button>
+    <span class="wiz-counter" id="stepCounter"></span>
+    <button class="wiz-cancel" onclick="cancelWizard()">✕ Batal</button>
+  </div>
+
+  <div class="progress-track">
+    <div class="progress-fill" id="progressBar"></div>
+  </div>
+
+  <div class="steps-container">
+
+    <!-- STEP 1: NPSN -->
+    <div class="step" data-step="1">
+      <div class="step-emoji">🏫</div>
+      <h2 class="step-question">Berapa NPSN sekolah Anda?</h2>
+      <p class="step-sub">Nomor Pokok Sekolah Nasional terdiri dari 8 digit angka</p>
+      <input type="text" id="f-npsn" class="input-hero" placeholder="Contoh: 20219876"
+        maxlength="8" inputmode="numeric" pattern="\d{8}"
+        oninput="this.value=this.value.replace(/\D/g,'')"
+        onkeydown="enterNext(event,1)" />
+      <div class="field-error" id="err-npsn">⚠ NPSN harus 8 digit angka</div>
+      <button class="btn-lanjut" onclick="nextStep(1)">Lanjut →</button>
+    </div>
+
+    <!-- STEP 2: Nama Sekolah -->
+    <div class="step" data-step="2">
+      <div class="step-emoji">🏛️</div>
+      <h2 class="step-question">Apa nama sekolah Anda?</h2>
+      <p class="step-sub">Tulis nama lengkap sekolah</p>
+      <input type="text" id="f-sekolah" class="input-hero" placeholder="Contoh: SMK Negeri 1 Jakarta"
+        onkeydown="enterNext(event,2)" />
+      <div class="field-error" id="err-sekolah">⚠ Nama sekolah wajib diisi</div>
+      <button class="btn-lanjut" onclick="nextStep(2)">Lanjut →</button>
+    </div>
+
+    <!-- STEP 3: Nama Murid -->
+    <div class="step" data-step="3">
+      <div class="step-emoji">👤</div>
+      <h2 class="step-question">Nama lengkap murid?</h2>
+      <p class="step-sub">Sesuai ijazah atau kartu identitas</p>
+      <input type="text" id="f-murid" class="input-hero" placeholder="Tulis nama lengkap murid..."
+        onkeydown="enterNext(event,3)" />
+      <div class="field-error" id="err-murid">⚠ Nama murid wajib diisi</div>
+      <button class="btn-lanjut" onclick="nextStep(3)">Lanjut →</button>
+    </div>
+
+    <!-- STEP 4: Konsentrasi -->
+    <div class="step" data-step="4">
+      <div class="step-emoji">🔧</div>
+      <h2 class="step-question">Apa konsentrasi keahlian murid ini?</h2>
+      <p class="step-sub">Contoh: Teknik Pemesinan, Perhotelan, Akuntansi</p>
+      <input type="text" id="f-konsentrasi" class="input-hero" placeholder="Tulis konsentrasi keahlian..."
+        onkeydown="enterNext(event,4)" />
+      <div class="field-error" id="err-konsentrasi">⚠ Konsentrasi keahlian wajib diisi</div>
+      <button class="btn-lanjut" onclick="nextStep(4)">Lanjut →</button>
+    </div>
+
+    <!-- STEP 5: Kelas -->
+    <div class="step" data-step="5">
+      <div class="step-emoji">📚</div>
+      <h2 class="step-question">Murid ini duduk di kelas berapa?</h2>
+      <p class="step-sub">Ketuk salah satu pilihan di bawah</p>
+      <div class="big-choices">
+        <button class="big-choice" data-field="kelas" data-val="X" onclick="selectBig('kelas','X',this); nextStep(5)">
+          <span class="bc-num">X</span><span class="bc-label">Kelas 10</span>
+        </button>
+        <button class="big-choice" data-field="kelas" data-val="XI" onclick="selectBig('kelas','XI',this); nextStep(5)">
+          <span class="bc-num">XI</span><span class="bc-label">Kelas 11</span>
+        </button>
+        <button class="big-choice" data-field="kelas" data-val="XII" onclick="selectBig('kelas','XII',this); nextStep(5)">
+          <span class="bc-num">XII</span><span class="bc-label">Kelas 12</span>
+        </button>
+        <button class="big-choice" data-field="kelas" data-val="XIII" onclick="selectBig('kelas','XIII',this); nextStep(5)">
+          <span class="bc-num">XIII</span><span class="bc-label">Kelas 13</span>
+        </button>
+      </div>
+      <div class="field-error" id="err-kelas">⚠ Pilih kelas terlebih dahulu</div>
+    </div>
+
+    <!-- STEP 6: Sudah Pelatihan? -->
+    <div class="step" data-step="6">
+      <div class="step-emoji">🌏</div>
+      <h2 class="step-question">Apakah murid ini sudah mengikuti pelatihan untuk penempatan luar negeri?</h2>
+      <p class="step-sub">Ketuk salah satu</p>
+      <div class="yesno-choices">
+        <button class="yn-btn yn-yes" data-field="pelatihan" data-val="Sudah" onclick="selectBig('pelatihan','Sudah',this); nextStep(6)">
+          <span class="yn-icon">✅</span>
+          <strong>Sudah</strong>
+        </button>
+        <button class="yn-btn yn-no" data-field="pelatihan" data-val="Belum" onclick="selectBig('pelatihan','Belum',this); nextStep(6)">
+          <span class="yn-icon">❌</span>
+          <strong>Belum</strong>
+        </button>
+      </div>
+      <div class="field-error" id="err-pelatihan">⚠ Pilih salah satu</div>
+    </div>
+
+    <!-- STEP 7: Fasilitator -->
+    <div class="step" data-step="7">
+      <div class="step-emoji">👨‍🏫</div>
+      <h2 class="step-question">Siapa nama fasilitator pelatihan?</h2>
+      <p class="step-sub">Tulis nama fasilitator yang membimbing murid ini</p>
+      <input type="text" id="f-fasilitator" class="input-hero" placeholder="Nama fasilitator..."
+        onkeydown="enterNext(event,7)" />
+      <div class="field-error" id="err-fasilitator">⚠ Nama fasilitator wajib diisi</div>
+      <button class="btn-lanjut" onclick="nextStep(7)">Lanjut →</button>
+    </div>
+
+    <!-- STEP 8: Sudah Penempatan? -->
+    <div class="step" data-step="8">
+      <div class="step-emoji">🎓</div>
+      <h2 class="step-question">Apakah murid ini sudah lulus pelatihan dan mendapat penempatan?</h2>
+      <p class="step-sub">Ketuk salah satu</p>
+      <div class="yesno-choices">
+        <button class="yn-btn yn-yes" data-field="penempatan" data-val="Sudah" onclick="selectBig('penempatan','Sudah',this); nextStep(8)">
+          <span class="yn-icon">✅</span>
+          <strong>Sudah</strong>
+        </button>
+        <button class="yn-btn yn-no" data-field="penempatan" data-val="Belum" onclick="selectBig('penempatan','Belum',this); nextStep(8)">
+          <span class="yn-icon">❌</span>
+          <strong>Belum</strong>
+        </button>
+      </div>
+      <div class="field-error" id="err-penempatan">⚠ Pilih salah satu</div>
+    </div>
+
+    <!-- STEP 9: Negara -->
+    <div class="step" data-step="9">
+      <div class="step-emoji">✈️</div>
+      <h2 class="step-question">Negara tujuan penempatan?</h2>
+      <p class="step-sub">Pilih dari daftar atau tulis sendiri</p>
+      <div class="country-pills">
+        <button class="pill" onclick="setPill('f-negara', 'Jepang')">🇯🇵 Jepang</button>
+        <button class="pill" onclick="setPill('f-negara', 'Korea Selatan')">🇰🇷 Korea Selatan</button>
+        <button class="pill" onclick="setPill('f-negara', 'Jerman')">🇩🇪 Jerman</button>
+        <button class="pill" onclick="setPill('f-negara', 'Australia')">🇦🇺 Australia</button>
+        <button class="pill" onclick="setPill('f-negara', 'Malaysia')">🇲🇾 Malaysia</button>
+        <button class="pill" onclick="setPill('f-negara', 'Singapura')">🇸🇬 Singapura</button>
+        <button class="pill" onclick="setPill('f-negara', 'Belanda')">🇳🇱 Belanda</button>
+        <button class="pill" onclick="setPill('f-negara', 'Inggris')">🇬🇧 Inggris</button>
+      </div>
+      <input type="text" id="f-negara" class="input-hero" placeholder="Atau tulis nama negara..."
+        onkeydown="enterNext(event,9)" />
+      <div class="field-error" id="err-negara">⚠ Nama negara wajib diisi</div>
+      <button class="btn-lanjut" onclick="nextStep(9)">Lanjut →</button>
+    </div>
+
+    <!-- STEP 10: Tanggal -->
+    <div class="step" data-step="10">
+      <div class="step-emoji">📅</div>
+      <h2 class="step-question">Tanggal penempatan murid?</h2>
+      <p class="step-sub">Kapan murid ini mulai ditempatkan di luar negeri?</p>
+      <input type="date" id="f-tanggal" class="input-hero date-input" />
+      <div class="field-error" id="err-tanggal">⚠ Tanggal penempatan wajib diisi</div>
+      <button class="btn-lanjut" onclick="nextStep(10)">Lanjut →</button>
+    </div>
+
+    <!-- STEP 11: Review -->
+    <div class="step" data-step="11">
+      <div class="step-emoji">📝</div>
+      <h2 class="step-question">Periksa data sebelum disimpan</h2>
+      <p class="step-sub">Pastikan semua informasi sudah benar</p>
+      <div class="review-list" id="reviewCard"></div>
+      <div class="review-actions">
+        <button class="btn-edit-back" onclick="prevStep()">← Edit</button>
+        <button class="btn-simpan" onclick="submitData()">💾 Simpan Data</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ SUKSES ══════════════════════════════════ -->
+<div id="page-success" class="page">
+  <div class="success-wrap">
+    <div class="success-icon">🎉</div>
+    <h2>Data Berhasil Disimpan!</h2>
+    <p id="success-name"></p>
+    <div class="success-btns">
+      <button class="sbtn-add" onclick="startWizard()">➕ Tambah Murid Lagi</button>
+      <button class="sbtn-home" onclick="goPage('page-home')">🏠 Menu Utama</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HALAMAN DATA ═════════════════════════════ -->
+<div id="page-data" class="page">
+  <div class="subpage-header">
+    <button class="btn-back-home" onclick="goPage('page-home')">← Menu Utama</button>
+    <h2>📋 Data Tersimpan</h2>
+  </div>
+  <div class="subpage-body">
+    <div class="table-toolbar">
+      <input type="text" id="searchInput" class="search-box" placeholder="🔍 Cari nama murid atau sekolah..." oninput="renderTable()" />
+      <span id="dataCount" class="cnt-badge">0 data</span>
+    </div>
+    <div class="tbl-scroll">
+      <table id="dataTable">
+        <thead>
+          <tr>
+            <th>No</th><th>NPSN</th><th>Sekolah</th><th>Nama Murid</th>
+            <th>Konsentrasi</th><th>Kelas</th><th>Pelatihan</th>
+            <th>Fasilitator</th><th>Penempatan</th><th>Negara</th>
+            <th>Tgl Penempatan</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+      <div id="emptyState" class="empty-state" style="display:none">
+        <div>📭</div>
+        <p>Belum ada data. Kembali ke menu utama untuk mengisi formulir.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HALAMAN EXPORT ═══════════════════════════ -->
+<div id="page-export" class="page">
+  <div class="subpage-header">
+    <button class="btn-back-home" onclick="goPage('page-home')">← Menu Utama</button>
+    <h2>💾 Unduh Data</h2>
+  </div>
+  <div class="subpage-body">
+    <div id="stats-row" class="stats-row"></div>
+    <div class="exp-cards">
+      <div class="exp-card">
+        <div class="exp-ico">📊</div>
+        <h3>Export ke Excel (CSV)</h3>
+        <p>Format CSV langsung bisa dibuka di Microsoft Excel atau Google Sheets.</p>
+        <button class="btn-exp" onclick="exportCSV()">⬇ Download CSV</button>
+      </div>
+      <div class="exp-card">
+        <div class="exp-ico">📦</div>
+        <h3>Export JSON</h3>
+        <p>Format JSON untuk backup atau integrasi sistem lain.</p>
+        <button class="btn-exp" onclick="exportJSON()">⬇ Download JSON</button>
+      </div>
+      <div class="exp-card exp-danger">
+        <div class="exp-ico">🗑</div>
+        <h3>Hapus Semua Data</h3>
+        <p>Menghapus seluruh data dari browser. Pastikan sudah didownload dahulu!</p>
+        <button class="btn-exp btn-del" onclick="clearAllData()">Hapus Semua</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
