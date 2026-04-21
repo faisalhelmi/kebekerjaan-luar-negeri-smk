@@ -735,11 +735,11 @@ tbody td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-
       <div class="step-emoji">👤</div>
       <h2 class="step-question">Data identitas murid?</h2>
       <p class="step-sub">NIK sesuai KTP/KIA, nama sesuai ijazah atau kartu identitas</p>
-      <label style="display:block;font-size:0.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">NIK Siswa</label>
-      <input type="text" id="f-nik" class="input-hero" placeholder="16 digit NIK siswa..."
+      <label style="display:block;font-size:0.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">NIK Murid</label>
+      <input type="text" id="f-nik" class="input-hero" placeholder="16 digit NIK murid..."
         maxlength="16" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'')"
         style="margin-bottom:16px;" onkeydown="if(event.key==='Enter') document.getElementById('f-murid').focus()" />
-      <div class="field-error" id="err-nik">⚠ NIK siswa wajib diisi (16 digit)</div>
+      <div class="field-error" id="err-nik">⚠ NIK murid wajib diisi (16 digit)</div>
       <label style="display:block;font-size:0.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Nama Lengkap Murid</label>
       <input type="text" id="f-murid" class="input-hero" placeholder="Tulis nama lengkap murid..."
         onkeydown="enterNext(event,1)" />
@@ -1237,7 +1237,7 @@ function buildReview() {
   const rows = [
     ['🏫 NPSN',              activeSchool?.npsn || '—'],
     ['🏛️ Sekolah',           activeSchool?.namaSekolah || '—'],
-    ['🪪 NIK Siswa',         fVal('f-nik')],
+    ['🪪 NIK Murid',         fVal('f-nik')],
     ['👤 Nama Murid',        fVal('f-murid')],
     ['🔧 Konsentrasi',       fVal('f-konsentrasi')],
     ['📚 Kelas',             selections.kelas || '—'],
@@ -1350,7 +1350,7 @@ function renderTable() {
           <table>
             <thead>
               <tr>
-                <th>No</th><th>NIK Siswa</th><th>Nama Murid</th><th>Konsentrasi</th>
+                <th>No</th><th>NIK Murid</th><th>Nama Murid</th><th>Konsentrasi</th>
                 <th>KJP</th><th>Pelatihan</th><th>Fasilitator</th>
                 <th>Penempatan</th><th>Negara</th><th>Tgl Penempatan</th><th></th>
               </tr>
@@ -1397,7 +1397,7 @@ function exportCSV() {
   const students = getStudentsBySchool(activeSchool.npsn);
   if (!students.length) { toast('Tidak ada data untuk diexport.', 'err'); return; }
 
-  const headers = ['No', 'NPSN', 'Nama Sekolah', 'NIK Siswa', 'Nama Murid', 'Konsentrasi Keahlian',
+  const headers = ['No', 'NPSN', 'Nama Sekolah', 'NIK Murid', 'Nama Murid', 'Konsentrasi Keahlian',
     'Kelas', 'Status KJP', 'Sudah Pelatihan LN', 'Nama Fasilitator',
     'Sudah Mendapat Penempatan', 'Negara Penempatan', 'Tanggal Penempatan', 'Timestamp'];
 
