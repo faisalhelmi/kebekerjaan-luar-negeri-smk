@@ -733,8 +733,14 @@ tbody td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-
 
     <div class="step" data-step="1">
       <div class="step-emoji">👤</div>
-      <h2 class="step-question">Nama lengkap murid?</h2>
-      <p class="step-sub">Sesuai ijazah atau kartu identitas</p>
+      <h2 class="step-question">Data identitas murid?</h2>
+      <p class="step-sub">NIK sesuai KTP/KIA, nama sesuai ijazah atau kartu identitas</p>
+      <label style="display:block;font-size:0.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">NIK Siswa</label>
+      <input type="text" id="f-nik" class="input-hero" placeholder="16 digit NIK siswa..."
+        maxlength="16" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'')"
+        style="margin-bottom:16px;" onkeydown="if(event.key==='Enter') document.getElementById('f-murid').focus()" />
+      <div class="field-error" id="err-nik">⚠ NIK siswa wajib diisi (16 digit)</div>
+      <label style="display:block;font-size:0.82rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Nama Lengkap Murid</label>
       <input type="text" id="f-murid" class="input-hero" placeholder="Tulis nama lengkap murid..."
         onkeydown="enterNext(event,1)" />
       <div class="field-error" id="err-murid">⚠ Nama murid wajib diisi</div>
@@ -773,46 +779,61 @@ tbody td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-
     </div>
 
     <div class="step" data-step="4">
+      <div class="step-emoji">💳</div>
+      <h2 class="step-question">Apakah murid ini penerima KJP?</h2>
+      <p class="step-sub">Kartu Jakarta Pintar (KJP)</p>
+      <div class="yesno-choices">
+        <button class="yn-btn yn-yes" data-field="kjp" data-val="Ya" onclick="selectBig('kjp','Ya',this); nextStep(4)">
+          <span class="yn-icon">✅</span><strong>Ya</strong>
+        </button>
+        <button class="yn-btn yn-no" data-field="kjp" data-val="Tidak" onclick="selectBig('kjp','Tidak',this); nextStep(4)">
+          <span class="yn-icon">❌</span><strong>Tidak</strong>
+        </button>
+      </div>
+      <div class="field-error" id="err-kjp">⚠ Pilih salah satu</div>
+    </div>
+
+    <div class="step" data-step="5">
       <div class="step-emoji">🌏</div>
       <h2 class="step-question">Apakah murid ini sudah mengikuti pelatihan untuk penempatan luar negeri?</h2>
       <p class="step-sub">Ketuk salah satu</p>
       <div class="yesno-choices">
-        <button class="yn-btn yn-yes" data-field="pelatihan" data-val="Sudah" onclick="selectBig('pelatihan','Sudah',this); nextStep(4)">
+        <button class="yn-btn yn-yes" data-field="pelatihan" data-val="Sudah" onclick="selectBig('pelatihan','Sudah',this); nextStep(5)">
           <span class="yn-icon">✅</span><strong>Sudah</strong>
         </button>
-        <button class="yn-btn yn-no" data-field="pelatihan" data-val="Belum" onclick="selectBig('pelatihan','Belum',this); nextStep(4)">
+        <button class="yn-btn yn-no" data-field="pelatihan" data-val="Belum" onclick="selectBig('pelatihan','Belum',this); nextStep(5)">
           <span class="yn-icon">❌</span><strong>Belum</strong>
         </button>
       </div>
       <div class="field-error" id="err-pelatihan">⚠ Pilih salah satu</div>
     </div>
 
-    <div class="step" data-step="5">
+    <div class="step" data-step="6">
       <div class="step-emoji">👨‍🏫</div>
       <h2 class="step-question">Siapa nama fasilitator pelatihan?</h2>
       <p class="step-sub">Tulis nama fasilitator yang membimbing murid ini</p>
       <input type="text" id="f-fasilitator" class="input-hero" placeholder="Nama fasilitator..."
-        onkeydown="enterNext(event,5)" />
+        onkeydown="enterNext(event,6)" />
       <div class="field-error" id="err-fasilitator">⚠ Nama fasilitator wajib diisi</div>
-      <button class="btn-lanjut" onclick="nextStep(5)">Lanjut →</button>
+      <button class="btn-lanjut" onclick="nextStep(6)">Lanjut →</button>
     </div>
 
-    <div class="step" data-step="6">
+    <div class="step" data-step="7">
       <div class="step-emoji">🎓</div>
       <h2 class="step-question">Apakah murid ini sudah lulus pelatihan dan mendapat penempatan?</h2>
       <p class="step-sub">Ketuk salah satu</p>
       <div class="yesno-choices">
-        <button class="yn-btn yn-yes" data-field="penempatan" data-val="Sudah" onclick="selectBig('penempatan','Sudah',this); nextStep(6)">
+        <button class="yn-btn yn-yes" data-field="penempatan" data-val="Sudah" onclick="selectBig('penempatan','Sudah',this); nextStep(7)">
           <span class="yn-icon">✅</span><strong>Sudah</strong>
         </button>
-        <button class="yn-btn yn-no" data-field="penempatan" data-val="Belum" onclick="selectBig('penempatan','Belum',this); nextStep(6)">
+        <button class="yn-btn yn-no" data-field="penempatan" data-val="Belum" onclick="selectBig('penempatan','Belum',this); nextStep(7)">
           <span class="yn-icon">❌</span><strong>Belum</strong>
         </button>
       </div>
       <div class="field-error" id="err-penempatan">⚠ Pilih salah satu</div>
     </div>
 
-    <div class="step" data-step="7">
+    <div class="step" data-step="8">
       <div class="step-emoji">✈️</div>
       <h2 class="step-question">Negara tujuan penempatan?</h2>
       <p class="step-sub">Pilih dari daftar atau tulis sendiri</p>
@@ -827,21 +848,21 @@ tbody td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-
         <button class="pill" onclick="setPill('f-negara','Inggris',this)">🇬🇧 Inggris</button>
       </div>
       <input type="text" id="f-negara" class="input-hero" placeholder="Atau tulis nama negara..."
-        onkeydown="enterNext(event,7)" />
+        onkeydown="enterNext(event,8)" />
       <div class="field-error" id="err-negara">⚠ Nama negara wajib diisi</div>
-      <button class="btn-lanjut" onclick="nextStep(7)">Lanjut →</button>
+      <button class="btn-lanjut" onclick="nextStep(8)">Lanjut →</button>
     </div>
 
-    <div class="step" data-step="8">
+    <div class="step" data-step="9">
       <div class="step-emoji">📅</div>
       <h2 class="step-question">Tanggal penempatan murid?</h2>
       <p class="step-sub">Kapan murid ini mulai ditempatkan di luar negeri?</p>
       <input type="date" id="f-tanggal" class="input-hero date-input" />
       <div class="field-error" id="err-tanggal">⚠ Tanggal penempatan wajib diisi</div>
-      <button class="btn-lanjut" onclick="nextStep(8)">Lanjut →</button>
+      <button class="btn-lanjut" onclick="nextStep(9)">Lanjut →</button>
     </div>
 
-    <div class="step" data-step="9">
+    <div class="step" data-step="10">
       <div class="step-emoji">📝</div>
       <h2 class="step-question">Periksa data sebelum disimpan</h2>
       <p class="step-sub">Pastikan semua informasi sudah benar</p>
@@ -1098,11 +1119,11 @@ function renderDashboard() {
 
 // ══ WIZARD ══════════════════════════════════════
 function getStepSequence() {
-  const seq = [1, 2, 3, 4];
-  if (selections.pelatihan === 'Sudah') seq.push(5);
-  seq.push(6);
-  if (selections.penempatan === 'Sudah') { seq.push(7); seq.push(8); }
-  seq.push(9);
+  const seq = [1, 2, 3, 4, 5];
+  if (selections.pelatihan === 'Sudah') seq.push(6);
+  seq.push(7);
+  if (selections.penempatan === 'Sudah') { seq.push(8); seq.push(9); }
+  seq.push(10);
   return seq;
 }
 
@@ -1110,7 +1131,7 @@ function startWizard() {
   if (!activeSchool) { goPage('page-home'); return; }
   currentStep = 1;
   selections = {};
-  ['f-murid', 'f-konsentrasi', 'f-fasilitator', 'f-negara', 'f-tanggal']
+  ['f-nik', 'f-murid', 'f-konsentrasi', 'f-fasilitator', 'f-negara', 'f-tanggal']
     .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
   document.querySelectorAll('.big-choice, .yn-btn, .pill').forEach(el => el.classList.remove('selected'));
   document.querySelectorAll('.field-error').forEach(el => el.classList.remove('show'));
@@ -1142,7 +1163,7 @@ function showStep(step) {
   const backBtn = document.getElementById('wiz-back-btn');
   backBtn.style.visibility = idx === 0 ? 'hidden' : 'visible';
 
-  if (step === 9) buildReview();
+  if (step === 10) buildReview();
 
   setTimeout(() => {
     const input = el && el.querySelector('input');
@@ -1184,14 +1205,18 @@ function fVal(id) { return (document.getElementById(id)?.value || '').trim(); }
 
 function validateStep(step) {
   switch (step) {
-    case 1: if (!fVal('f-murid'))       { showErr('err-murid');       return false; } break;
+    case 1:
+      if (!/^\d{16}$/.test(fVal('f-nik'))) { showErr('err-nik'); return false; }
+      if (!fVal('f-murid'))                 { showErr('err-murid'); return false; }
+      break;
     case 2: if (!fVal('f-konsentrasi')) { showErr('err-konsentrasi'); return false; } break;
     case 3: if (!selections.kelas)      { showErr('err-kelas');        return false; } break;
-    case 4: if (!selections.pelatihan)  { showErr('err-pelatihan');   return false; } break;
-    case 5: if (!fVal('f-fasilitator')) { showErr('err-fasilitator'); return false; } break;
-    case 6: if (!selections.penempatan) { showErr('err-penempatan');  return false; } break;
-    case 7: if (!fVal('f-negara'))      { showErr('err-negara');      return false; } break;
-    case 8: if (!fVal('f-tanggal'))     { showErr('err-tanggal');     return false; } break;
+    case 4: if (!selections.kjp)        { showErr('err-kjp');          return false; } break;
+    case 5: if (!selections.pelatihan)  { showErr('err-pelatihan');   return false; } break;
+    case 6: if (!fVal('f-fasilitator')) { showErr('err-fasilitator'); return false; } break;
+    case 7: if (!selections.penempatan) { showErr('err-penempatan');  return false; } break;
+    case 8: if (!fVal('f-negara'))      { showErr('err-negara');      return false; } break;
+    case 9: if (!fVal('f-tanggal'))     { showErr('err-tanggal');     return false; } break;
   }
   return true;
 }
@@ -1212,9 +1237,11 @@ function buildReview() {
   const rows = [
     ['🏫 NPSN',              activeSchool?.npsn || '—'],
     ['🏛️ Sekolah',           activeSchool?.namaSekolah || '—'],
+    ['🪪 NIK Siswa',         fVal('f-nik')],
     ['👤 Nama Murid',        fVal('f-murid')],
     ['🔧 Konsentrasi',       fVal('f-konsentrasi')],
     ['📚 Kelas',             selections.kelas || '—'],
+    ['💳 Penerima KJP',      selections.kjp || '—'],
     ['🌏 Pelatihan LN',      selections.pelatihan || '—'],
     ['👨‍🏫 Fasilitator',      selections.pelatihan === 'Sudah' ? (fVal('f-fasilitator') || '—') : 'Tidak diisi'],
     ['🎓 Dapat Penempatan',  selections.penempatan || '—'],
@@ -1226,6 +1253,8 @@ function buildReview() {
     let display = esc(value);
     if (value === 'Sudah') display = `<span class="rev-badge rev-ok">✅ Sudah</span>`;
     else if (value === 'Belum') display = `<span class="rev-badge rev-no">⏳ Belum</span>`;
+    else if (value === 'Ya') display = `<span class="rev-badge rev-ok">✅ Ya</span>`;
+    else if (value === 'Tidak') display = `<span class="rev-badge rev-no">❌ Tidak</span>`;
     else if (value === 'Tidak diisi') display = `<span style="color:#aaa;font-style:italic">Tidak diisi</span>`;
     return `<div class="review-row"><span class="rev-label">${label}</span><span class="rev-value">${display}</span></div>`;
   }).join('');
@@ -1237,9 +1266,11 @@ function submitData() {
     timestamp: new Date().toISOString(),
     npsn: activeSchool.npsn,
     namaSekolah: activeSchool.namaSekolah,
+    nikSiswa: fVal('f-nik'),
     namaMurid: fVal('f-murid'),
     konsentrasi: fVal('f-konsentrasi'),
     kelas: selections.kelas,
+    statusKjp: selections.kjp,
     sudahPelatihan: selections.pelatihan,
     namaFasilitator: selections.pelatihan === 'Sudah' ? fVal('f-fasilitator') : '',
     sudahPenempatan: selections.penempatan,
@@ -1296,8 +1327,10 @@ function renderTable() {
       return `
         <tr>
           <td>${rowNum}</td>
+          <td>${esc(r.nikSiswa || '—')}</td>
           <td><strong>${esc(r.namaMurid)}</strong></td>
           <td>${esc(r.konsentrasi)}</td>
+          <td><span class="badge-${r.statusKjp === 'Ya' ? 'ok' : 'wait'}">${esc(r.statusKjp || '—')}</span></td>
           <td><span class="badge-${r.sudahPelatihan === 'Sudah' ? 'ok' : 'wait'}">${esc(r.sudahPelatihan)}</span></td>
           <td>${r.namaFasilitator ? esc(r.namaFasilitator) : '<span style="color:#bbb">—</span>'}</td>
           <td><span class="badge-${r.sudahPenempatan === 'Sudah' ? 'ok' : 'wait'}">${esc(r.sudahPenempatan)}</span></td>
@@ -1317,8 +1350,8 @@ function renderTable() {
           <table>
             <thead>
               <tr>
-                <th>No</th><th>Nama Murid</th><th>Konsentrasi</th>
-                <th>Pelatihan</th><th>Fasilitator</th>
+                <th>No</th><th>NIK Siswa</th><th>Nama Murid</th><th>Konsentrasi</th>
+                <th>KJP</th><th>Pelatihan</th><th>Fasilitator</th>
                 <th>Penempatan</th><th>Negara</th><th>Tgl Penempatan</th><th></th>
               </tr>
             </thead>
@@ -1364,13 +1397,13 @@ function exportCSV() {
   const students = getStudentsBySchool(activeSchool.npsn);
   if (!students.length) { toast('Tidak ada data untuk diexport.', 'err'); return; }
 
-  const headers = ['No', 'NPSN', 'Nama Sekolah', 'Nama Murid', 'Konsentrasi Keahlian',
-    'Kelas', 'Sudah Pelatihan LN', 'Nama Fasilitator',
+  const headers = ['No', 'NPSN', 'Nama Sekolah', 'NIK Siswa', 'Nama Murid', 'Konsentrasi Keahlian',
+    'Kelas', 'Status KJP', 'Sudah Pelatihan LN', 'Nama Fasilitator',
     'Sudah Mendapat Penempatan', 'Negara Penempatan', 'Tanggal Penempatan', 'Timestamp'];
 
   const rows = students.map((s, i) => [
-    i + 1, s.npsn, s.namaSekolah, s.namaMurid, s.konsentrasi, s.kelas,
-    s.sudahPelatihan, s.namaFasilitator || '',
+    i + 1, s.npsn, s.namaSekolah, s.nikSiswa || '', s.namaMurid, s.konsentrasi, s.kelas,
+    s.statusKjp || '', s.sudahPelatihan, s.namaFasilitator || '',
     s.sudahPenempatan, s.negaraPenempatan || '', s.tanggalPenempatan || '', s.timestamp
   ]);
 
